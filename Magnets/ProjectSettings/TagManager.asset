@@ -3,17 +3,20 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Fill
+  - Enemy
+  - LowHealthVignette
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Entity
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Bullet
+  - Walls
+  - PostProcessing
   - 
   - 
   - 
@@ -40,4 +43,22 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Walls
+    uniqueID: 479314019
+    locked: 0
+  - name: LevelTiles
+    uniqueID: 1680027153
+    locked: 0
+  - name: Particles
+    uniqueID: 1541009063
+    locked: 0
+  - name: Bullets
+    uniqueID: 2760003945
+    locked: 0
+  - name: Entities
+    uniqueID: 3698270523
+    locked: 0
+  - name: UI
+    uniqueID: 3370017883
     locked: 0
