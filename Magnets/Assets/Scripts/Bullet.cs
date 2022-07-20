@@ -23,12 +23,6 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject,bulletLifetimeInSeconds);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void OnTriggerEnter2D(Collider2D col)
     {
         Instantiate(sparks,gameObject.transform.position,gameObject.transform.rotation);

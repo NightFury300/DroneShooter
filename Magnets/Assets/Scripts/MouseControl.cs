@@ -27,7 +27,8 @@ public class MouseControl : MonoBehaviour
     void Update()
     {
         LookTowardsMouse();
-        OnLeftClick();
+        if(FindObjectOfType<GameManager>().isGameRunning())
+            OnLeftClick();
     }
 
     private void LookTowardsMouse()

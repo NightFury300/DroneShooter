@@ -3,6 +3,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
+    private bool gameRunning = false;
+
+    [SerializeField]
     private GameObject enemy;
 
     [SerializeField]
@@ -35,15 +38,18 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("SpawnEnemy",0.1f,spawnRateInSeconds);
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool isGameRunning()
     {
+        return gameRunning;
     }
 
     void SpawnEnemy()
     {
-        Vector2 spawnLoc = GenerateSpawnPoint();
-        InstantiateEnemy(spawnLoc);
+        if (isGameRunning())
+        {
+            Vector2 spawnLoc = GenerateSpawnPoint();
+            InstantiateEnemy(spawnLoc);
+        }
     }
 
     Vector2 GenerateSpawnPoint()

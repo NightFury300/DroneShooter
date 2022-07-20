@@ -19164,6 +19164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0de103fa4d0db9d41af1712d206fd648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameRunning: 0
   enemy: {fileID: 3119060941676782540, guid: 4af113aa86c5e9146aa85138e6afc9b0, type: 3}
   minDistance: 0
   maxDistance: 0
@@ -19665,7 +19666,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.2652652, y: 1}
+    m_SensorSize: {x: 2.1861086, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -26198,7 +26199,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
   m_Color: {r: 1, g: 0.67358494, b: 0.67358494, a: 1}
-  m_Intensity: 0.06
+  m_Intensity: 0.08
   m_LightVolumeIntensity: 0
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 112e2364

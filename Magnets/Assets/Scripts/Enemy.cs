@@ -57,17 +57,20 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isAlive)
+        if (FindObjectOfType<GameManager>().isGameRunning())
         {
-            healthBar.SetHealthValue(currentHealth);
-            //DisableGraphicsIfNotInView();
-            DecreaseHealthOverTime();
-            if(isTracking) MoveTowardsPlayer();
-            if(CheckForPlayerProximity())
-                TriggerExplosion();
+            if (isAlive)
+            {
+                healthBar.SetHealthValue(currentHealth);
+                //DisableGraphicsIfNotInView();
+                DecreaseHealthOverTime();
+                if (isTracking) MoveTowardsPlayer();
+                if (CheckForPlayerProximity())
+                    TriggerExplosion();
+            }
+            if (GetComponent<Rigidbody2D>().velocity.magnitude <= 0.5f)
+                isTracking = true;
         }
-        if(GetComponent<Rigidbody2D>().velocity.magnitude <= 0.5f)
-            isTracking = true;
         
     }
 
