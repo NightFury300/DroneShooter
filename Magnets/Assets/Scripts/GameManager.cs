@@ -1,21 +1,26 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private bool gameRunning = false;
 
+    [Header("Mechanics")]
+
     [SerializeField]
     private GameObject enemy;
-
     [SerializeField]
     private float minDistance;
     [SerializeField]
     private float maxDistance;
-
     [SerializeField]
     private float spawnRateInSeconds = 2.0f;
+    [SerializeField]
+    private GameObject lowHealthVignette;
 
+
+    [Header("Borders")]
     [SerializeField]
     private Collider2D left;
     [SerializeField]
@@ -27,8 +32,20 @@ public class GameManager : MonoBehaviour
 
     private GameObject player;
 
+    [Header("UI")]
     [SerializeField]
-    private GameObject lowHealthVignette;
+    private GameObject menuUI;
+    [SerializeField]
+    private GameObject runtimeUI;
+    [SerializeField]
+    private GameObject pauseUI;
+    [SerializeField]
+    private GameObject muteButton;
+    [SerializeField]
+    private GameObject unmuteButton;
+
+    [SerializeField]
+    private bool isAudioEnabled = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,5 +93,59 @@ public class GameManager : MonoBehaviour
             return;
         }
         lowHealthVignette.SetActive(active);
+    }
+
+    public void OnStartButtonClick()
+    {
+        gameRunning = true;
+        MenuUIVisibility(false);
+        RuntimeUIVisibility(true);
+    }
+
+    public void OnExitButtonClick()
+    {
+        Application.Quit();
+    }
+
+    public void OnMuteButtonClick()
+    {
+        isAudioEnabled = !isAudioEnabled;
+        AudioListener.volume = isAudioEnabled? 1.0f:0.0f;
+        muteButton.SetActive(isAudioEnabled);
+        unmuteButton.SetActive(!isAudioEnabled);
+    }
+
+    public void OnPauseButtonClick()
+    {
+        gameRunning = false;
+        RuntimeUIVisibility(false);
+        PauseUIVisibility(true);
+    }
+
+    public void OnResumeButtonClick()
+    {
+        gameRunning = true;
+        RuntimeUIVisibility(true);
+        PauseUIVisibility(false);
+    }
+
+    public void OnBackToMenuButtonClick()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void MenuUIVisibility(bool visible)
+    {
+        menuUI.SetActive(visible);
+    }
+
+    private void RuntimeUIVisibility(bool visible)
+    {
+        runtimeUI.SetActive(visible);
+    }
+
+    private void PauseUIVisibility(bool visible)
+    {
+        pauseUI.SetActive(visible);
     }
 }
