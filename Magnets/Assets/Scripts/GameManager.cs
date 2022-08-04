@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
     private GameObject unmuteButton;
 
     [SerializeField]
+    private GameObject scoreUI;
+
+    [SerializeField]
     private bool isAudioEnabled = true;
     // Start is called before the first frame update
     void Start()
@@ -53,11 +56,26 @@ public class GameManager : MonoBehaviour
         minDistance = ((Camera.main.ViewportToWorldPoint(new Vector3(0.0f,0.0f,10.0f)) - Camera.main.ViewportToWorldPoint(new Vector3(1.0f,1.0f,10.0f))).magnitude)/2;
         maxDistance = minDistance * 2.5f;
         InvokeRepeating("SpawnEnemy",0.1f,spawnRateInSeconds);
+        Score.Init(scoreUI,menuUI);
+        Score.ResetScore();
+        Score.UpdateHighScore(Score.GetCurrentHighScore());
     }
 
     public bool isGameRunning()
     {
         return gameRunning;
+    }
+
+    private void Update()
+    {
+        if(isGameRunning())
+        {
+            Score.IncreaseScore();          
+        }
+        if (Score.GetCurrentScore() > Score.GetCurrentHighScore())
+        {
+            Score.UpdateHighScore(Score.GetCurrentScore());
+        }
     }
 
     void SpawnEnemy()
@@ -100,6 +118,7 @@ public class GameManager : MonoBehaviour
         gameRunning = true;
         MenuUIVisibility(false);
         RuntimeUIVisibility(true);
+        ScoreUIVisibility(true);
     }
 
     public void OnExitButtonClick()
@@ -147,5 +166,10 @@ public class GameManager : MonoBehaviour
     private void PauseUIVisibility(bool visible)
     {
         pauseUI.SetActive(visible);
+    }
+
+    private void ScoreUIVisibility(bool visible)
+    {
+        scoreUI.SetActive(visible);
     }
 }

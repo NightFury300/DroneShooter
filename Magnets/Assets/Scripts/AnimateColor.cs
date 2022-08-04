@@ -23,15 +23,15 @@ public class AnimateColor : MonoBehaviour
 
     void AnimateColorWithTime()
     {
-        float normalizedTime = currentTime/animationSpeed;
+        float normalizedTime = currentTime / animationSpeed;
         spriteRenderer.color = colorGradient.Evaluate(normalizedTime);
-        if(currentTime >= animationSpeed)
+        if (currentTime >= animationSpeed)
             isIncreasing = false;
-            
-        else if(currentTime <= 0.0f)
+
+        else if (currentTime <= 0.0f)
             isIncreasing = true;
-        
-        if(isIncreasing)    currentTime += Time.deltaTime;
-        else    currentTime -= Time.deltaTime;
+
+        if (isIncreasing) currentTime += Time.deltaTime;
+        else currentTime -= Time.deltaTime;
     }
 }
