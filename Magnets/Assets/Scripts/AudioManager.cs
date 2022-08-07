@@ -10,6 +10,8 @@ public class AudioManager : MonoBehaviour
 
     public AudioMixer audioMixer;
 
+    private bool restarting = false;
+
     void Awake()
     {
         if(instance == null)
@@ -131,5 +133,15 @@ public class AudioManager : MonoBehaviour
             return;
         }
         s.source.Stop();
+    }
+
+    public bool isRestarting()
+    {
+        return restarting;
+    }
+    
+    public void SetRestarting(bool restarting)
+    {
+        this.restarting = restarting;
     }
 }

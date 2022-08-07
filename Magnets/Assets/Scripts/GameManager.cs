@@ -44,12 +44,16 @@ public class GameManager : MonoBehaviour
     private GameObject muteButton;
     [SerializeField]
     private GameObject unmuteButton;
-
     [SerializeField]
     private GameObject scoreUI;
+    [SerializeField]
+    private GameObject gameOverUI;
 
     [SerializeField]
     private bool isAudioEnabled = true;
+
+    private GameObject audioManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,6 +65,15 @@ public class GameManager : MonoBehaviour
         Score.ResetScore();
         Score.UpdateHighScore(Score.GetCurrentHighScore());
         pauseUI.GetComponentInChildren<TextMeshProUGUI>().SetText(((int)Score.GetCurrentHighScore()).ToString());
+        audioManager = FindObjectOfType<AudioManager>().gameObject;
+        if (audioManager.GetComponent<AudioManager>().isRestarting())
+        {
+            OnStartButtonClick();
+            audioManager.GetComponent<AudioManager>().SetRestarting(false);
+        }
+        isAudioEnabled = AudioListener.volume >= 1.0f ? true : false;
+        UpdateVolume();
+        UpdateMuteButton();
     }
 
     public bool isGameRunning()
@@ -109,10 +122,22 @@ public class GameManager : MonoBehaviour
     {
         if(!active)
         {
+            Score.BoostScoreByMultiplier(1.0f);
             lowHealthVignette.gameObject.GetComponent<VignetteController>().Disable();
             return;
         }
+        Score.BoostScoreByMultiplier(2.0f);
         lowHealthVignette.SetActive(active);
+        
+    }
+
+    public void TriggerGameOver()
+    {
+        gameRunning = false;
+        PauseUIVisibility(false);
+        UpdateGameOverUI();
+        GameOverUIVisibility(true);
+        ScoreUIVisibility(false);
     }
 
     public void OnStartButtonClick()
@@ -131,7 +156,17 @@ public class GameManager : MonoBehaviour
     public void OnMuteButtonClick()
     {
         isAudioEnabled = !isAudioEnabled;
+        UpdateVolume();
+        UpdateMuteButton();
+    }
+
+    private void UpdateVolume()
+    {
         AudioListener.volume = isAudioEnabled? 1.0f:0.0f;
+    }
+
+    private void UpdateMuteButton()
+    {
         muteButton.SetActive(isAudioEnabled);
         unmuteButton.SetActive(!isAudioEnabled);
     }
@@ -150,9 +185,20 @@ public class GameManager : MonoBehaviour
         PauseUIVisibility(false);
     }
 
+    public void OnRetryButtonClick()
+    {
+        ReloadScene();
+        audioManager.GetComponent<AudioManager>().SetRestarting(true);
+    }
+
     public void OnBackToMenuButtonClick()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        ReloadScene();
+    }
+
+    private void ReloadScene()
+    {
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void MenuUIVisibility(bool visible)
@@ -173,5 +219,15 @@ public class GameManager : MonoBehaviour
     private void ScoreUIVisibility(bool visible)
     {
         scoreUI.SetActive(visible);
+    }
+
+    private void GameOverUIVisibility(bool visible)
+    {
+        gameOverUI.SetActive(visible);
+    }
+
+    private void UpdateGameOverUI()
+    {
+        gameOverUI.GetComponentInChildren<TextMeshProUGUI>().SetText(((int)Score.GetCurrentScore()).ToString());
     }
 }

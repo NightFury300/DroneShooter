@@ -11,8 +11,10 @@ public static class Score
     private static float score = 0.0f;
 
     [SerializeField]
-    private static int scoreIncreaseSpeedPerSecond = 1000/60;
+    private static int defaultScoreIncreaseSpeedPerSecond = 1000/60;
     
+    private static int scoreIncreaseSpeedPerSecond = defaultScoreIncreaseSpeedPerSecond;
+
     public static void Init(GameObject scoreUI,GameObject highscoreUI)
     {
         scoreText = scoreUI.GetComponentInChildren<TextMeshProUGUI>();
@@ -27,6 +29,7 @@ public static class Score
     public static void IncreaseScore()
     {
         score += scoreIncreaseSpeedPerSecond * Time.deltaTime;
+        Debug.Log(scoreIncreaseSpeedPerSecond);
         UpdateScoreGUI();
     }
 
@@ -50,6 +53,16 @@ public static class Score
     public static void ResetHighScore()
     {
         UpdateHighScore(0.0f);
+    }
+
+    public static void BoostScore(int amount)
+    {
+        score += amount;
+    }
+
+    public static void BoostScoreByMultiplier(float multiplier)
+    {
+        scoreIncreaseSpeedPerSecond = (int)(defaultScoreIncreaseSpeedPerSecond * multiplier);
     }
 
     public static float GetCurrentScore()

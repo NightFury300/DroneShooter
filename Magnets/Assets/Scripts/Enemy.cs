@@ -38,6 +38,9 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private bool isTracking = false;
 
+    [SerializeField]
+    private int explosionScoreBoost = 300;
+
     /*[SerializeField]
     private GameObject graphicsObject;
     [SerializeField]
@@ -119,6 +122,7 @@ public class Enemy : MonoBehaviour
     void TriggerExplosion()
     {
         isAlive = false;
+        Score.BoostScore(explosionScoreBoost);
         Instantiate(explosion,gameObject.transform.position,Quaternion.identity);
 
         PlayExplosionAudio();

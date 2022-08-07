@@ -12,17 +12,27 @@ public class Player : MonoBehaviour
     private float healthIncrementInSeconds = 5.0f;
     [SerializeField]
     private bool playingLowHealthSound = false;
+    [SerializeField]
+    private bool playerAlive = true;
+
+    private GameObject gameManager;
+    private GameObject audioManager;
     // Start is called before the first frame update
     void Start()
     {
         currentHealth = maxHealth;
+        gameManager = FindObjectOfType<GameManager>().gameObject;
+        audioManager = FindObjectOfType<AudioManager>().gameObject;
     }
 
     // Update is called once per frame
     void Update()
     {
-        healthBar.SetHealthValue(currentHealth);
-        IncreaseHealthOvertime();
+        if (playerAlive && gameManager.GetComponent<GameManager>().isGameRunning())
+        {
+            healthBar.SetHealthValue(currentHealth);
+            IncreaseHealthOvertime();
+        }
     }
 
     public float GetMaxHealth()
@@ -44,8 +54,11 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if(currentHealth - damage < 0.1f)
+        if (currentHealth - damage < 0.1f)
+        {
             currentHealth = 0.0f;
+            PlayerDie();
+        }
         else
             currentHealth -= damage;
         if(currentHealth <= 0.3f * maxHealth)
@@ -55,20 +68,26 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void PlayerDie()
+    {
+        playerAlive = false;
+        gameManager.GetComponent<GameManager>().TriggerGameOver();
+    }
+
     void PlayLowHealthSound()
     {
-        FindObjectOfType<AudioManager>().GetComponent<AudioManager>().Play("LowHealth");
-        FindObjectOfType<AudioManager>().GetComponent<AudioManager>().HighlightSound("LowHealth");
+        audioManager.GetComponent<AudioManager>().Play("LowHealth");
+        audioManager.GetComponent<AudioManager>().HighlightSound("LowHealth");
 
-        FindObjectOfType<GameManager>().GetComponent<GameManager>().ActivateLowHealthVignette(true);
+        gameManager.GetComponent<GameManager>().ActivateLowHealthVignette(true);
     }
 
     void StopLowHealthSound()
     {
-        FindObjectOfType<AudioManager>().GetComponent<AudioManager>().Stop("LowHealth");
-        FindObjectOfType<AudioManager>().GetComponent<AudioManager>().ResetSoundProperties("All");
+        audioManager.GetComponent<AudioManager>().Stop("LowHealth");
+        audioManager.GetComponent<AudioManager>().ResetSoundProperties("All");
         playingLowHealthSound = false;
 
-        FindObjectOfType<GameManager>().GetComponent<GameManager>().ActivateLowHealthVignette(false); 
+        gameManager.GetComponent<GameManager>().ActivateLowHealthVignette(false); 
     }
 }
