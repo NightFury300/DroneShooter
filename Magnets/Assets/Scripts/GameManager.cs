@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -59,6 +60,7 @@ public class GameManager : MonoBehaviour
         Score.Init(scoreUI,menuUI);
         Score.ResetScore();
         Score.UpdateHighScore(Score.GetCurrentHighScore());
+        pauseUI.GetComponentInChildren<TextMeshProUGUI>().SetText(((int)Score.GetCurrentHighScore()).ToString());
     }
 
     public bool isGameRunning()
