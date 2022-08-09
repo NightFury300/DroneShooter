@@ -135,6 +135,7 @@ public class GameManager : MonoBehaviour
     {
         gameRunning = false;
         PauseUIVisibility(false);
+        RuntimeUIVisibility(false);
         UpdateGameOverUI();
         GameOverUIVisibility(true);
         ScoreUIVisibility(false);
@@ -196,6 +197,10 @@ public class GameManager : MonoBehaviour
         ReloadScene();
     }
 
+    public void OnResetHighscoreButtonClick()
+    {
+        Score.ResetHighScore();
+    }
     private void ReloadScene()
     {
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);

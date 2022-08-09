@@ -29,7 +29,6 @@ public static class Score
     public static void IncreaseScore()
     {
         score += scoreIncreaseSpeedPerSecond * Time.deltaTime;
-        Debug.Log(scoreIncreaseSpeedPerSecond);
         UpdateScoreGUI();
     }
 
